@@ -1,0 +1,11 @@
+{
+  "name": "verposter",
+  "private": true,
+  "scripts": {
+    "build:css": "tailwindcss -i ./src/main/styles/app.css -o ./src/main/webapp/app.css --minify"
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.3.5",
+    "tailwindcss": "^4.3.5"
+  }
+}

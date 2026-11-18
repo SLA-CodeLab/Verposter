@@ -5,16 +5,19 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Verposter</title>
+    <link rel="stylesheet" href="app.css">
 </head>
-<body style="text-align: center;">
+<body class="min-h-screen bg-slate-950 px-4 py-8 text-center text-slate-100 sm:py-14">
+<main class="mx-auto max-w-xl rounded-3xl border border-slate-700 bg-slate-900 p-5 shadow-xl sm:p-8">
 
 
-<h1>VERPOSTER</h1>
+<h1 class="mb-6 text-4xl font-black tracking-tight text-lime-300 sm:text-5xl">VERPOSTER</h1>
 
 
 <p>Warten auf die anderen Spieler </p>
-<table border="1" cellpadding="5" style="margin: 0 auto;">
+<table>
     <thead>
     <tr>
         <th>Nr</th>
@@ -29,7 +32,7 @@
 </table>
 
 <p>Themen</p>
-<table border="1" cellpadding="5" style="margin: 0 auto;">
+<table>
     <thead>
     <tr>
         <th>Nr</th>
@@ -44,6 +47,8 @@
 
 <p><button type="button" id="ready-button">Bereit</button>&nbsp;&nbsp;&nbsp;&nbsp;<button type="button" id="leave-button">Verlassen</button></p>
 
+</main>
+
 <script>
     const ROOM_ID = new URLSearchParams(window.location.search).get("roomId");
 
@@ -56,10 +61,11 @@
         let index = 1;
         for(const member of members){
             const row = document.createElement("tr");
-            row.innerHTML = `
-                <td>${index++}</td>
-                <td>${member.name}</td>
-                <td>${member.ready ? "&#10003;" : "&#10007;"}</td>`;
+            for (const value of [index++, member.name, member.ready ? "✓" : "✗"]) {
+                const cell = document.createElement("td");
+                cell.textContent = value;
+                row.append(cell);
+            }
             table.append(row);
         }
 
@@ -97,9 +103,11 @@
         let index = 1;
         for(const topic of topics){
             const row = document.createElement("tr");
-            row.innerHTML = `
-                <td>${index++}</td>
-                <td>${topic.name}</td>`;
+            for (const value of [index++, topic.name]) {
+                const cell = document.createElement("td");
+                cell.textContent = value;
+                row.append(cell);
+            }
             table.append(row);
         }
     }

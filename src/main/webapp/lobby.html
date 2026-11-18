@@ -3,18 +3,21 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Verposter - Lobby</title>
+    <link rel="stylesheet" href="app.css">
 </head>
-<body style="text-align: center;">
+<body class="min-h-screen bg-slate-950 px-4 py-8 text-center text-slate-100 sm:py-14">
+<main class="mx-auto max-w-xl rounded-3xl border border-slate-700 bg-slate-900 p-5 shadow-xl sm:p-8">
 
-<h1>VERPOSTER</h1>
+<h1 class="mb-6 text-4xl font-black tracking-tight text-lime-300 sm:text-5xl">VERPOSTER</h1>
 <h2>Lobby</h2>
 
 <form action = "createroom" method = "get">
     <p><button type="submit">+ Neuer Raum</button></p></form>
 
 
-<table border="1" cellpadding="5" style="margin: 0 auto;">
+<table>
     <thead>
         <tr>
             <th>Raum</th>
@@ -30,6 +33,8 @@
 <form action="logout" method="get">
 <br> <button>Ausloggen</button>
 </form>
+</main>
+
 <script>
     async function getRooms(){
         const resp = await fetch('api/rooms');
@@ -39,14 +44,21 @@
         table.innerHTML = "";
         for(const room of rooms){
             const row = document.createElement("tr");
-            row.innerHTML = `
-                <td>${room.id}</td>
-                <td>${room.name}</td>
-                <td>
-                        <form action="api/rooms/${room.id}/members" method="post">
-                            <button type="submit"> Beitreten </button>
-                    </form>
-                </td> `;
+            for (const value of [room.id, room.name]) {
+                const cell = document.createElement("td");
+                cell.textContent = value;
+                row.append(cell);
+            }
+            const actionCell = document.createElement("td");
+            const joinForm = document.createElement("form");
+            joinForm.action = `api/rooms/${encodeURIComponent(room.id)}/members`;
+            joinForm.method = "post";
+            const button = document.createElement("button");
+            button.type = "submit";
+            button.textContent = "Beitreten";
+            joinForm.append(button);
+            actionCell.append(joinForm);
+            row.append(actionCell);
             table.append(row);
         }
     }

@@ -54,9 +54,6 @@ public class LoginServlet extends HttpServlet {
             return;
         }
 
-        //test ausgabe
-        System.out.println("username = " + newUser.getName());
-        System.out.println("password = " + newUser.getPassword());
 
         try {
             // in einer Datenbank suchen also ein Objekt aus einer Datebank
@@ -66,6 +63,7 @@ public class LoginServlet extends HttpServlet {
                 return;
             }
             HttpSession session = req.getSession();
+            req.changeSessionId();
             session.setAttribute("userId", user.getId());
             session.setAttribute("username", user.getName());
             session.setAttribute("ready", false);

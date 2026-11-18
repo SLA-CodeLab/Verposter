@@ -1,0 +1,23 @@
+@import "tailwindcss" source(none);
+@source "../webapp/*.html";
+
+@layer base {
+    h2 { @apply text-2xl font-bold; }
+    h3 { @apply font-semibold; }
+    p { @apply my-3; }
+    label { @apply text-sm font-semibold text-slate-200; }
+    input:not([type="hidden"]), textarea {
+        @apply my-2 max-w-full rounded-xl border border-slate-600 bg-slate-950 px-3 py-2 text-slate-100 placeholder:text-slate-400;
+    }
+    textarea { @apply w-full resize-y; }
+    button {
+        @apply my-1 cursor-pointer rounded-xl bg-lime-300 px-4 py-2 font-bold text-slate-950 hover:bg-lime-200;
+    }
+    :is(button, input, textarea, a):focus-visible {
+        @apply outline-2 outline-offset-2 outline-lime-300;
+    }
+    table { @apply my-4 w-full text-left text-sm; }
+    th, td { @apply border-b border-slate-700 px-2 py-2 wrap-anywhere; }
+    thead { @apply text-slate-300; }
+    #vote-buttons { @apply flex flex-wrap justify-center gap-2; }
+}

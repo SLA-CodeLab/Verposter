@@ -41,3 +41,5 @@ build/
 .DS_Store
 .vcs.xml
 /.idea/vcs.xml
+
+node_modules/

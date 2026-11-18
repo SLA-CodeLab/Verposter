@@ -4,11 +4,14 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Verposter - Deine Karte</title>
+    <link rel="stylesheet" href="app.css">
 </head>
-<body style="text-align: center;">
+<body class="min-h-screen bg-slate-950 px-4 py-8 text-center text-slate-100 sm:py-14">
+<main class="mx-auto max-w-xl rounded-3xl border border-slate-700 bg-slate-900 p-5 shadow-xl sm:p-8">
 
-<h1>VERPOSTER</h1>
+<h1 class="mb-6 text-4xl font-black tracking-tight text-lime-300 sm:text-5xl">VERPOSTER</h1>
 
 <p>Das Wort ist</p>
 <h2 id="word"> </h2>
@@ -25,13 +28,16 @@
 <h3 id="reveal"></h3>
 <p><button type="button" id="lobby-button" style="display: none;">Zurück zur Lobby</button></p>
 
+</main>
+
 <script>
     const roomId = new URLSearchParams(window.location.search).get("roomId")
 
     // Adresse aus der aktuellen Seite ableiten, damit das Spiel auch von einem
     // anderen Rechner im Netz laeuft und nicht nur auf localhost
     const wsProtocol = location.protocol === "https:" ? "wss:" : "ws:";
-    const wsBase = `${wsProtocol}//${location.host}/Verposter/ws/rooms/${roomId}`;
+    const wsPath = new URL(`ws/rooms/${encodeURIComponent(roomId)}`, location.href);
+    const wsBase = `${wsProtocol}//${wsPath.host}${wsPath.pathname}`;
 
     const socket = new WebSocket(wsBase);
     const voteSocket = new WebSocket(`${wsBase}/vote`);
@@ -55,7 +61,7 @@
         const input = document.getElementById("message");
         const message = input.value.trim();
 
-        if (message === "") {
+        if (message === "" || socket.readyState !== WebSocket.OPEN) {
             return;
         }
 
@@ -132,6 +138,7 @@
             button.type = "button";
             button.textContent = member.name;
             button.addEventListener("click", () => {
+                if (voteSocket.readyState !== WebSocket.OPEN) return;
                 voteSocket.send(String(member.id));
                 document.getElementById("reveal").textContent = "Stimme abgegeben, warte auf die anderen";
             });
