@@ -10,7 +10,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author Lukas
  */
 public class GameRoomRegistry {
-    private static final Map<Integer, GameRoom> gameRoomsById = new ConcurrentHashMap<>();
+    private static final Map<Integer, GameRoom> gameRoomsById = new HashMap<>();
 
     public static GameRoom get(int roomId) {
         return gameRoomsById.get(roomId);
